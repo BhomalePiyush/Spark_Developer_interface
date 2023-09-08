@@ -1,0 +1,6 @@
+requests
+setuptools
+pandas 
+numpy 
+datawrangler
+pyspark==3.4.1

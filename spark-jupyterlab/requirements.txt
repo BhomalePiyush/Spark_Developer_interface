@@ -1,0 +1,9 @@
+requests
+setuptools
+pandas 
+numpy 
+datawrangler 
+findspark 
+jupyterlab
+supervisor
+pyspark==3.4.1
