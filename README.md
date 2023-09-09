@@ -19,6 +19,7 @@ with Jupyter Lab attached to it also for security if code that you write that ca
 * Your Spark UI will be hosted on `localhost:8080`
 * Your Jupyter lab will be at `localhost:8888`
 ## FYI's
+* Try to use `user` folder that you will be able to see in jupyter lab folder it will automatically sync your development into your local machine so that you never lose your code.
 * while running your code please try not to declare master cause by default it is pointed to cluster so no need to declare master ![](spark_session_example.png)
 * We are using amazonlinux:2023 as base image which is on x86_64 architecture also it is based on RHEL (Red Hat Enterprise Linux) so default package managers will be same underlying  
 * Spark UI: ![](spark_UI_example.png)
