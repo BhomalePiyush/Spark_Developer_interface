@@ -1,0 +1,54 @@
+version: "3.8"
+services:
+  spark-master:
+    container_name: spark-master
+    image: piyushbhomale/amazonlinux-spark-cluster:v1
+    networks:
+      - spark-network
+    #volumes:
+    #  - ./logs/apps:/opt/spark-apps
+    #  - ./logs/data:/opt/spark-data
+    ports:
+      - 8080:8080
+      - 7077:7077
+    environment:
+      - SPARK_MASTER_HOST=spark-master
+      - SPARK_WORKLOAD=master
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+  spark-worker:
+    image: piyushbhomale/amazonlinux-spark-cluster:v1
+    networks:
+      - spark-network
+    #volumes:
+    #  - ./logs/apps:/opt/spark-apps
+    #  - ./logs/data:/opt/spark-data
+    environment:
+      - "SPARK_MASTER=spark://spark-master:7077"
+      - SPARK_WORKLOAD=worker
+    depends_on:
+      - spark-master
+  submit-demon:
+    container_name: submit-demon
+    image: piyushbhomale/amazonlinux-spark-jupyterlab:v1
+    stdin_open: true
+    tty: true
+    #entrypoint: bash /sync-folder.sh
+    command: supervisord -c /etc/supervisord.conf
+    networks:
+      - spark-network
+    volumes:
+      - ./user:/code
+    depends_on:
+      - spark-master
+      - spark-worker
+    ports:
+      - 8888:8888
+networks:
+  spark-network:
+    name: spark-network
+    driver: bridge
